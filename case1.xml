@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<template>
+	<organizations>
+		<organization>
+			<!-- Organization Properties -->
+			<name>NaaS_RK2</name>
+			<profile>NaaS</profile>
+			<localAS>65000</localAS>
+
+			<!-- NSG Properties -->
+			<nsgs>
+				<nsg>
+					<nsg_template>NaaS_Dual_Links</nsg_template>
+					<name>Cust-1-NSG-001</name>
+					<mac_address>00:00:00:00:00:01</mac_address>
+					<zfb_name>Cust-1-ZFB-01</zfb_name>
+					<location>1234 1st street, Calgary AB</location>
+					<installer></installer>
+					
+					<uplinkProperties>
+						<port>
+							<physicalName>port1</physicalName>
+							<mtu>1500</mtu>
+							<speed>AUTONEGOTIATE</speed>
+							<NATTraversal>NONE</NATTraversal>
+							
+							<role>PRIMARY</role>
+							<pppoeConfig></pppoeConfig> <!-- Not used - Future use -->
+							<username></username> <!-- Not used - Future use -->
+							<password></password> <!-- Not used - Future use -->
+							<mode>Dynamic</mode> <!-- Dynamic, Static-->
+							<netmask></netmask>
+							<address></address>
+							<gateway></gateway>
+							<DnsAddress></DnsAddress>
+						</port>
+						
+						<port>
+							<physicalName>port2</physicalName>
+							<mtu>1500</mtu>
+							<speed>AUTONEGOTIATE</speed>
+							<NATTraversal>NONE</NATTraversal>
+							
+							<role>SECONDARY</role>
+							<pppoeConfig></pppoeConfig> <!-- Not used - Future use -->
+							<username></username> <!-- Not used - Future use -->
+							<password></password> <!-- Not used - Future use -->
+							<mode>Dynamic</mode> <!-- Dynamic, Static-->
+							<netmask></netmask>
+							<address></address>
+							<gateway></gateway>
+							<DnsAddress></DnsAddress>
+						</port>
+					</uplinkProperties>
+						
+				</nsg>
+			</nsgs>
+
+			<!-- Service Properties -->
+			<services>
+				<service>
+					<type>BI</type> <!-- BI, BI+ACL, L3, L3+BI, L3+BI+ACL -->
+					<name>Cust-1-BI-01</name>
+					<template>Basic</template>
+					
+					<qos>
+						<qos_entry>
+							<name>QoS</name>
+							<description>Domain QoS</description>
+							<trust_forwarding_class>True</trust_forwarding_class>
+							<forwarding_class>G</forwarding_class>
+							<active>True</active>
+						</qos_entry>
+					</qos>
+					
+					<!-- Zone properties -->
+					<zones>
+						<zone>
+							<name>0</name>
+							<!--
+							<description>Zone 0</description>
+							<encryption>INHERITED</encryption>
+							<multicast>INHERITED</multicast>
+							<public>False</public>
+							-->
+							<!--Subnet properties -->
+							<subnets>
+								<subnet>
+									<name>Cust-1-BI-S-001</name>
+									<network>192.168.1.0</network>
+									<subnet_mask>255.255.255.0</subnet_mask>
+									<nsg_name>Cust-1-NSG-001</nsg_name>
+									
+									<dns>
+										<entry></entry> <!-- Keep at least 1 entry blank if want defaults -->
+									</dns>
+									
+									<!-- vport properties -->
+									<vports>
+										<vport>
+											<name>S-001-BI</name>
+											<nsg_port>3</nsg_port>
+											<vlan>0</vlan>
+											<!-- bridge interface properties -->
+											<bridge_interfaces>
+												<bridge_interface>
+													<name>BI</name>
+												</bridge_interface>
+											</bridge_interfaces>
+										</vport>
+									</vports>
+								</subnet>
+							</subnets>
+						</zone>
+					</zones>
+				</service>
+			</services>
+		</organization>
+	</organizations>
+</template>

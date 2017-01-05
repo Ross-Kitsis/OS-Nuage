@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<template>
+	<organizations>
+		<organization>
+			<!-- Organization Properties -->
+			<name></name>
+			<profile></profile>
+			<localAS></localAS>
+
+			<!-- NSG Properties -->
+			<nsgs>
+				<nsg>
+					<nsg_template></nsg_template>
+					<name></name>
+					<mac_address></mac_address>
+					<zfb_name></zfb_name>
+					<location></location>
+					<installer></installer>
+					<uplinkProperties>
+						<port>
+							<physicalName></physicalName>
+							<mtu></mtu>
+							<speed></speed>
+							<NATTraversal></NATTraversal> <!-- FULL_NAT, ONE_TO_ONE_NAT or NONE -->
+							
+							<role></role> <!-- PRIMARY, SECONDARY -->
+							<pppoeConfig></pppoeConfig> <!-- Not used - Future use -->
+							<username></username> <!-- Not used - Future use -->
+							<password></password> <!-- Not used - Future use -->
+							<mode></mode> <!-- "Dynamic","Static","Any","PPPoE"  -->
+							<netmask></netmask>
+							<address></address>
+							<gateway></gateway>
+							<DnsAddress></DnsAddress>
+						</port>
+					</uplinkProperties>
+				</nsg>
+			</nsgs>
+
+			<!-- Service Properties -->
+			<services>
+				<service>
+					<type></type> <!-- BI, BI+ACL, L3, L3+BI, L3+BI+ACL -->
+					<name></name>
+					<template></template>
+					
+					<qos>
+						<qos_entry>
+							<name></name>
+							<description></description>
+							<trust_forwarding_class></trust_forwarding_class>
+							<forwarding_class></forwarding_class>
+							<active></active>
+						</qos_entry>
+					</qos>
+					
+					<!-- Zone properties -->
+					<zones>
+						<zone>
+							<name></name>
+							<description></description> <!-- MUST be Spoke for a Hub and Spoke deployment -->
+
+							<subnets>
+								<subnet>
+									<name></name>
+									<network></network>
+									<subnet_mask></subnet_mask>
+									<nsg_name></nsg_name>
+									
+									<dns>
+										<entry></entry> <!-- Keep at least 1 entry blank if want defaults -->
+									</dns>
+									
+									<!-- vport properties -->
+									<vports>
+										<vport>
+											<name></name>
+											<nsg_port></nsg_port>
+											<vlan></vlan>
+											<!-- bridge interface properties -->
+											<bridge_interfaces>
+												<bridge_interface>
+													<name></name>
+												</bridge_interface>
+											</bridge_interfaces>
+										</vport>
+									</vports>
+								</subnet>
+							</subnets>
+						</zone>
+					</zones>
+				</service>
+			</services>
+		</organization>
+	</organizations>
+</template>

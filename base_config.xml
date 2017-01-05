@@ -1,0 +1,275 @@
+<?xml version="1.0"?>
+<config>
+	<service_templates>
+		<service_template>
+			<name>Basic</name>
+			<description>Standard Basic</description>
+			<encryption>ENABLED</encryption>
+			<multicast>DISABLED</multicast>
+			<scope>ENTERPRISE</scope>
+
+			<zones>
+				<zone>
+					<name>Zone 0</name>
+					<description>Zone 0</description>
+					<encryption>INHERITED</encryption>
+					<multicast>INHERITED</multicast>
+					<public>False</public>
+				</zone>
+			</zones>
+
+			<ingress_policies>
+				<policy>
+					<active>True</active>
+					<allowL2Spoof>False</allowL2Spoof>
+					<defaultAllowIP>False</defaultAllowIP>
+					<defaultAllowNonIP>False</defaultAllowNonIP>
+					<name>Basic_allow_all</name>
+					<priority_type>BOTTOM</priority_type>
+
+					<entries>
+						<entry>
+							<description>Allow_all_remaining_traffic</description>
+							<location>ANY</location>
+							<networkType>ANY</networkType>
+							<protocol>ANY</protocol>
+							<action>FORWARD</action>
+							<etherType>0x0800</etherType>
+							<DSCP>*</DSCP>
+							<priority>100</priority>
+							<sourcePort></sourcePort>
+							<destinationPort></destinationPort>
+						</entry>
+					</entries>
+				</policy>
+			</ingress_policies>
+
+			<egress_policies>
+				<policy>
+					<active>True</active>
+					<defaultAllowIP>False</defaultAllowIP>
+					<defaultAllowNonIP>False</defaultAllowNonIP>
+					<defaultInstallACLImplicitRules>False</defaultInstallACLImplicitRules>
+					<name>egress_allow_all</name>
+					<priority_type>BOTTOM</priority_type>
+
+					<entries>
+						<entry>
+							<description>vport egress</description>
+							<location>ANY</location>
+							<networkType>ANY</networkType>
+							<protocol>ANY</protocol>
+							<action>FORWARD</action>
+							<etherType>0x0800</etherType>
+							<DSCP>*</DSCP>
+							<priority>100</priority>
+							<sourcePort></sourcePort>
+							<destinationPort></destinationPort>
+						</entry>
+					</entries>
+				</policy>
+			</egress_policies>
+		</service_template>
+	</service_templates>
+
+	<ingressPolicies>
+		<policy name="BI-Standard">
+			<name>ACL-1</name>
+			<description>BI-Standard</description>
+			<priority>1000</priority>
+			<allowL2Spoof>False</allowL2Spoof>
+			<defaultAllowIP>False</defaultAllowIP>
+			<defaultAllowNonIP>False</defaultAllowNonIP>
+			<active>True</active>
+
+			<entries>
+				<entry>
+					<description>Block_intra_BI</description>
+					<location>ZONE</location>
+					<networkType>ENDPOINT_ZONE</networkType>
+					<sourcePort>null</sourcePort>
+					<destinationPort>null</destinationPort>
+					<protocol>ANY</protocol>
+					<action>DROP</action>
+					<etherType>0x0800</etherType>
+					<DSCP>*</DSCP>
+					<priority>100</priority>
+				</entry>
+			</entries>
+		</policy>
+
+		<policy name="BI-Stateful">
+			<name>ACL-2</name>
+			<description>BI-stateful</description>
+			<priority>1100</priority>
+			<allowL2Spoof>False</allowL2Spoof>
+			<defaultAllowIP>False</defaultAllowIP>
+			<defaultAllowNonIP>False</defaultAllowNonIP>
+			<active>True</active>
+			
+			<entries>
+				<entry>
+					<stateful>TRUE</stateful>
+					<description>Stateful_ACL</description>
+					<location>ANY</location>
+					<networkType>ANY</networkType>
+					<sourcePort>*</sourcePort>
+					<destinationPort>*</destinationPort>
+					<protocol>ANY</protocol>
+					<action>FORWARD</action>
+					<etherType>0x0800</etherType>
+					<DSCP>*</DSCP>
+					<statsLoggingEnabled>FALSE</statsLoggingEnabled>
+					<flowLoggingEnabled>FALSE</flowLoggingEnabled>
+					<priority>100</priority>
+				</entry>
+			</entries>
+			
+			
+			
+		</policy>
+
+		<policy name="L3-Hub/Spoke">
+			<name>ACL-1</name>
+			<description>Block Intra Spoke</description>
+			<priority>100</priority>
+			<allowL2Spoof>False</allowL2Spoof>
+			<defaultAllowIP>False</defaultAllowIP>
+			<defaultAllowNonIP>False</defaultAllowNonIP>
+			<active>True</active>
+			
+			<entries>
+				<entry>
+					<stateful></stateful>
+					<description>Block_Intra_Spoke</description>
+					<location>ZONE</location>
+					<networkType>ENDPOINT_ZONE</networkType>
+					<sourcePort>null</sourcePort> 
+					<destinationPort>null</destinationPort> 
+					<protocol>ANY</protocol>
+					<action>DROP</action>
+					<etherType>0x0800</etherType>
+					<DSCP>*</DSCP>
+					<statsLoggingEnabled>FALSE</statsLoggingEnabled>
+					<flowLoggingEnabled>FALSE</flowLoggingEnabled>
+					<priority>1000</priority>
+				</entry>
+			</entries>
+		</policy>
+	
+		<policy name = "L3-Stateful">
+			<name>ACL-2</name>
+			<description>Stateful_ACL</description>
+			<priority>1100</priority>
+			<allowL2Spoof>False</allowL2Spoof>
+			<defaultAllowIP>False</defaultAllowIP>
+			<defaultAllowNonIP>False</defaultAllowNonIP>
+			<active>True</active>
+			
+			<entries>
+				<entry>
+					<stateful>TRUE</stateful>
+					<description>Stateful_ACL</description>
+					<location>ANY</location> <!-- Generated in script -->
+					<networkType>ANY</networkType>
+					<sourcePort>*</sourcePort> 
+					<destinationPort>*</destinationPort> 
+					<protocol>ANY</protocol>
+					<action>FORWARD</action>
+					<etherType>0x0800</etherType>
+					<DSCP>*</DSCP>
+					<statsLoggingEnabled>FALSE</statsLoggingEnabled>
+					<flowLoggingEnabled>FALSE</flowLoggingEnabled>
+					<priority>100</priority>
+				</entry>
+			</entries>
+			
+		</policy>
+	
+	</ingressPolicies>
+	
+
+	<egressPolicies>
+		<policy name="BI-Stateful">
+			<name>ACL-2</name>
+			<priority>1100</priority>
+			<defaultInstallACLImplicitRules>False</defaultInstallACLImplicitRules>
+			<defaultAllowIP>False</defaultAllowIP>
+			<defaultAllowNonIP>False</defaultAllowNonIP>
+			<active>True</active>
+
+			<entries>
+				<entry>
+					<stateful>FALSE</stateful>
+					<description>Stateful_Block_all</description>
+					<location>ANY</location>
+					<networkType>ANY</networkType>
+					<sourcePort>null</sourcePort>
+					<destinationPort>null</destinationPort>
+					<protocol>ANY</protocol>
+					<action>DROP</action>
+					<etherType>0x0800</etherType>
+					<DSCP>*</DSCP>
+					<priority>200</priority>
+					<statsLoggingEnabled>FALSE</statsLoggingEnabled>
+					<flowLoggingEnabled>FALSE</flowLoggingEnabled>
+				</entry>	
+			</entries>
+		</policy>
+		
+		<policy name="L3-Stateful">
+			<name>ACL-2</name>
+			<priority>1100</priority>
+			<defaultInstallACLImplicitRules>False</defaultInstallACLImplicitRules>
+			<defaultAllowIP>False</defaultAllowIP>
+			<defaultAllowNonIP>False</defaultAllowNonIP>
+			<active>True</active>
+
+			<entries>
+				<entry>
+					<stateful>TRUE</stateful>
+					<description>L3_Inter_Zone</description>
+					<location>ANY</location>
+					<networkType>ENDPOINT_DOMAIN</networkType>
+					<sourcePort>null</sourcePort>
+					<destinationPort>null</destinationPort>
+					<protocol>ANY</protocol>
+					<action>FORWARD</action>
+					<etherType>0x0800</etherType>
+					<DSCP>*</DSCP>
+					<priority>100</priority>
+					<statsLoggingEnabled>FALSE</statsLoggingEnabled>
+					<flowLoggingEnabled>FALSE</flowLoggingEnabled>
+				</entry>
+				
+				<entry>
+					<stateful>FALSE</stateful>
+					<description>Stateful_Block_all</description>
+					<location>ANY</location>
+					<networkType>ANY</networkType>
+					<sourcePort>null</sourcePort>
+					<destinationPort>null</destinationPort>
+					<protocol>ANY</protocol>
+					<action>DROP</action>
+					<etherType>0x0800</etherType>
+					<DSCP>*</DSCP>
+					<priority>200</priority>
+					<statsLoggingEnabled>FALSE</statsLoggingEnabled>
+					<flowLoggingEnabled>FALSE</flowLoggingEnabled>
+				</entry>
+					
+			</entries>
+		</policy>
+		
+	</egressPolicies>
+	
+	<EgressQOSPolicyName>Default_QoS</EgressQOSPolicyName>
+	
+	<dns_dhcp_options>
+		<type>06</type>
+		<length>08</length>
+		<value>0808080808080404</value>
+	</dns_dhcp_options>
+	
+</config>
+
